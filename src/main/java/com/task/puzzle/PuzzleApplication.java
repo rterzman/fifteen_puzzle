@@ -22,12 +22,11 @@ public class PuzzleApplication {
         final PuzzleGame game = new FifteenPuzzleGame(size, new RandomIntValueProvider());
         final PuzzleUiConfigurationProperties properties =
                 new PuzzleUiConfigurationProperties(margin, dim, size);
-        final FifteenPuzzleGameJPanel puzzleGameJPanel =
-                new FifteenPuzzleGameJPanel(game, properties);
-        puzzleGameJPanel.addMouseListener(
-                new PuzzleMouseAdapter(game, properties, puzzleGameJPanel));
-
         SwingUtilities.invokeLater(() -> {
+            final FifteenPuzzleGameJPanel puzzleGameJPanel =
+                    new FifteenPuzzleGameJPanel(game, properties);
+            puzzleGameJPanel.addMouseListener(
+                    new PuzzleMouseAdapter(game, properties, puzzleGameJPanel));
             final JFrame frame = new JFrame();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setTitle(GAME_TITLE);
