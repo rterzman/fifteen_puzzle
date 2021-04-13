@@ -1,8 +1,6 @@
 package com.task.puzzle.game;
 
-import com.task.puzzle.game.FifteenPuzzleGame;
-import com.task.puzzle.game.PuzzleGame;
-import com.task.puzzle.game.valueadapter.ValueProvider;
+import com.task.puzzle.game.position.PositionProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,17 +20,17 @@ class FifteenPuzzleGameTest {
     private static final int[] EXPECTED_RESULT = new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0};
 
     @Mock
-    private ValueProvider valueProvider;
+    private PositionProvider positionProvider;
 
     @BeforeEach
     void setUp() {
-        lenient().when(valueProvider.getNext(any()))
+        lenient().when(positionProvider.getNext(any()))
                 .then(i -> new Random().nextInt(i.getArgument(0)));
     }
 
     @Test
     void shouldCreateGameSuccessfully() {
-        PuzzleGame testable = new FifteenPuzzleGame(GAME_SIZE, valueProvider);
+        PuzzleGame testable = new FifteenPuzzleGame(GAME_SIZE, positionProvider);
 
         assertThat(testable).isNotNull()
                 .satisfies(g -> assertThat(g.getTitlesField()).isNotNull());
@@ -41,12 +39,12 @@ class FifteenPuzzleGameTest {
         assertThat(titlesFieldResult).isNotNull()
                 .satisfies(f -> assertThat(f).containsExactlyInAnyOrder(EXPECTED_RESULT));
 
-        verify(valueProvider, atLeastOnce()).getNext(any());
+        verify(positionProvider, atLeastOnce()).getNext(any());
     }
 
     @Test
     void shouldNotMoveBlankToOtherPosition() {
-        PuzzleGame testable = new FifteenPuzzleGame(GAME_SIZE, valueProvider);
+        PuzzleGame testable = new FifteenPuzzleGame(GAME_SIZE, positionProvider);
 
         final int initBlankPosition = testable.getBlankPosition();
 
@@ -62,7 +60,7 @@ class FifteenPuzzleGameTest {
 
     @Test
     void shouldMoveBlankToOtherPosition() {
-        PuzzleGame testable = new FifteenPuzzleGame(GAME_SIZE, valueProvider);
+        PuzzleGame testable = new FifteenPuzzleGame(GAME_SIZE, positionProvider);
 
         final int initBlankPosition = testable.getBlankPosition();
 
@@ -78,13 +76,13 @@ class FifteenPuzzleGameTest {
 
     @Test
     void shouldFinishGame() {
-        final ValueProvider preparedValueProvider = mock(ValueProvider.class);
-        when(preparedValueProvider.getNext(any())).then(i -> {
+        final PositionProvider preparedPositionProvider = mock(PositionProvider.class);
+        when(preparedPositionProvider.getNext(any())).then(i -> {
             final Integer input = (Integer) i.getArgument(0);
             return input - 1;
         });
 
-        PuzzleGame testable = new FifteenPuzzleGame(GAME_SIZE, preparedValueProvider);
+        PuzzleGame testable = new FifteenPuzzleGame(GAME_SIZE, preparedPositionProvider);
 
         final int cGrid_step1 = (testable.getBlankPosition() % GAME_SIZE) - 1;
         final int rGrid_step1 = testable.getBlankPosition() / GAME_SIZE;

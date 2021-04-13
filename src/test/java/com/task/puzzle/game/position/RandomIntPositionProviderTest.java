@@ -1,12 +1,12 @@
-package com.task.puzzle.game.valueadapter;
+package com.task.puzzle.game.position;
 
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class RandomIntValueProviderTest {
+class RandomIntPositionProviderTest {
 
-    private RandomIntValueProvider testable = new RandomIntValueProvider();
+    private RandomIntPositionProvider testable = new RandomIntPositionProvider();
 
     @Test
     void shouldReturnExpectedRandomValue() {

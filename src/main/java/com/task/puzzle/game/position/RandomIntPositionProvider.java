@@ -1,8 +1,8 @@
-package com.task.puzzle.game.valueadapter;
+package com.task.puzzle.game.position;
 
 import java.util.Random;
 
-public class RandomIntValueProvider implements ValueProvider<Integer> {
+public class RandomIntPositionProvider implements PositionProvider {
     private static final Random RANDOM = new Random();
 
     @Override

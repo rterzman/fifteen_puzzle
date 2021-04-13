@@ -1,6 +1,6 @@
 package com.task.puzzle.game;
 
-import com.task.puzzle.game.valueadapter.ValueProvider;
+import com.task.puzzle.game.position.PositionProvider;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -13,16 +13,16 @@ public class FifteenPuzzleGame implements PuzzleGame {
     private final int nTitles;
     private final int size;
 
-    private final ValueProvider<Integer> valueProvider;
+    private final PositionProvider positionProvider;
 
     private int blankPosition;
     private boolean gameOver;
 
-    public FifteenPuzzleGame(int size, ValueProvider<Integer> valueProvider) {
+    public FifteenPuzzleGame(int size, PositionProvider positionProvider) {
         this.size = size;
         this.titlesField = new int[size * size];
         this.nTitles = size * size - 1;
-        this.valueProvider = valueProvider;
+        this.positionProvider = positionProvider;
         this.blankPosition = titlesField.length - 1;
         this.gameOver = true;
         initiateGame();
@@ -46,7 +46,7 @@ public class FifteenPuzzleGame implements PuzzleGame {
     private void shuffle() {
         int n = nTitles;
         while (n > 1) {
-            int randPos = valueProvider.getNext(n--);
+            int randPos = positionProvider.getNext(n--);
             int tmp = titlesField[randPos];
             titlesField[randPos] = titlesField[n];
             titlesField[n] = tmp;
